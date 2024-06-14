@@ -1,4 +1,4 @@
-module api
+module trello
 
 go 1.22.3
 
