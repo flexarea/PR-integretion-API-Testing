@@ -1,19 +1,20 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/joho/godotenv"
+	"io"
 	"log"
 	"net/http"
-	"net/url"
 	"os"
-
-	"github.com/joho/godotenv"
 )
 
-func main() {
-	fmt.Println("Trello API test")
+//https://api.trello.com/1/actions/?key=APIKey&token=APIToken
+//https://api.trello.com/1/boards/{idBoard}?key={yourKey}&token={yourToken}'
 
-	headers := map[string]string{"Accept": "application/json"}
+func main() {
+	fmt.Println("Calling trello api")
 
 	err := godotenv.Load()
 
@@ -21,49 +22,50 @@ func main() {
 
 	api_key := os.Getenv("API_KEY")
 	oauth := os.Getenv("OAUTH_TOKEN")
-	//prepare query parameters
+	api_token := os.Getenv("API_TOKEN")
 
-	query := url.Values{}
-	query.Set("key", api_key)
-	query.Set("token", oauth)
+	fmt.Println("api_key: ", api_key)
+	fmt.Println("oauth: ", oauth)
+	//board_id := "666c33eced5913ce5f990639"
 
-	_url := "https://trello.com/b/GKkeJ61j/apitest/list" + query.Encode()
+	//_url := "https://api.trello.com/1/actions/?key=" + api_key + "&token=" + oauth
+	//xURL := "https://api.trello.com/1/members/me/boards?key=" + api_key + "&token=" + oauth
+	xURL := "https://api.trello.com/1/members/me/?key=" + api_key + "&token=" + api_token
 
-	req, err := http.NewRequest("GET", _url, nil)
+	req, err := http.NewRequest("GET", xURL, nil)
 
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	//set headers
-	for key, value := range headers {
-		req.Header.Set(key, value)
-	}
+
+	req.Header.Add("Accept", "application/json")
 
 	// Send the HTTP request
-	client := http.Client{}
+	client := &http.Client{} //memory address so we can reuse the the http.client instance for multiple request
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Error sending request:", err)
-		return
 	}
 	defer resp.Body.Close()
 
+	bodybyte, err := io.ReadAll(resp.Body)
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 	// Print the response status code
 	fmt.Println("Response Status:", resp.Status)
 
-	// Print the response body
-	// In a real application, you would typically read and process the body
-	// For simplicity, we are just printing the response body as a string here
-	// Note: This assumes the response body is textual, not binary
-	body := make([]byte, 512)
-	n, err := resp.Body.Read(body)
-	if err != nil {
-		fmt.Println("Error reading response body:", err)
-		return
-	}
-	fmt.Println(n)
+	// Convert response body to string
+	bodyString := string(bodybyte)
+	fmt.Println("API Response as String:\n" + bodyString)
 
+	// If needed, you can unmarshal into a map for dynamic inspection
+	var result map[string]interface{}
+	json.Unmarshal(bodybyte, &result)
+	fmt.Printf("API Response as map: %+v\n", result)
 }
 
 func handleError(err error) {
