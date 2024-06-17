@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"github.com/joho/godotenv"
 	"io"
@@ -21,10 +23,9 @@ func main() {
 	api_key := os.Getenv("API_KEY")
 	//oauth := os.Getenv("OAUTH_TOKEN")
 	api_token := os.Getenv("API_TOKEN")
-
-	fmt.Println("api_key: ", api_key)
-	fmt.Println("api_token: ", api_token)
 	gettingBoard(api_key, api_token)
+	//updatingBoard(api_key, api_token)
+
 }
 func handleError(err error) {
 	if err != nil {
@@ -71,6 +72,54 @@ func gettingBoard(api_key string, api_token string) {
 	// If needed, you can unmarshal into a map for dynamic inspection
 }
 
-func updatingBoard() {
+func updatingBoard(api_key string, api_token string) {
 	fmt.Println("Updating board")
+
+	board_id := "666c33eced5913ce5f990639"
+	newname := "Testing_api"
+	_url := "https://api.trello.com/1/boards/" + board_id + "?key=" + api_key + "&token=" + api_token
+	//create JSON payload
+	payload := map[string]string{"name": newname}
+
+	payloadBytes, err := json.Marshal(payload)
+	fmt.Println(payload)
+	fmt.Println(payloadBytes)
+	if err != nil {
+		log.Fatal("Error marshalling JSON: ", err)
+	}
+	body := bytes.NewBuffer(payloadBytes) //converts payloadBytes into buffer so can be used as io.reader
+	//create http request
+
+	req, err := http.NewRequest("PUT", _url, body)
+	if err != nil {
+		log.Fatal("Error sending request: ", err)
+	}
+
+	//set Content-Type header
+	req.Header.Set("Content-Type", "application/json")
+
+	// Send the HTTP request
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatalf("Error sending request: %v", err)
+	}
+	defer resp.Body.Close()
+
+	fmt.Println(resp.Status)
+
+	// Read and print the response body
+
+	bodybyte, err := io.ReadAll(resp.Body)
+
+	if err != nil {
+		fmt.Println("Error reading body: ", err.Error())
+	}
+	// Print the response status code
+	fmt.Println("Response Status:", resp.Status)
+
+	// Convert response body to string
+	bodyString := string(bodybyte)
+	fmt.Println("Response body:\n" + bodyString)
+
 }
