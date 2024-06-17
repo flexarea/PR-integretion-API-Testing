@@ -14,7 +14,17 @@ import (
 
 func main() {
 	fmt.Println("Calling trello api")
-	gettingBoard()
+	//retrieve data from .env
+	err := godotenv.Load()
+
+	handleError(err)
+	api_key := os.Getenv("API_KEY")
+	//oauth := os.Getenv("OAUTH_TOKEN")
+	api_token := os.Getenv("API_TOKEN")
+
+	fmt.Println("api_key: ", api_key)
+	fmt.Println("api_token: ", api_token)
+	gettingBoard(api_key, api_token)
 }
 func handleError(err error) {
 	if err != nil {
@@ -22,15 +32,7 @@ func handleError(err error) {
 	}
 }
 
-func gettingBoard() {
-	err := godotenv.Load()
-
-	handleError(err)
-
-	//retrieve data from .env
-	api_key := os.Getenv("API_KEY")
-	//oauth := os.Getenv("OAUTH_TOKEN")
-	api_token := os.Getenv("API_TOKEN")
+func gettingBoard(api_key string, api_token string) {
 
 	//board_id := "666c33eced5913ce5f990639"
 
@@ -67,4 +69,8 @@ func gettingBoard() {
 	fmt.Println("API Response as String:\n" + bodyString)
 
 	// If needed, you can unmarshal into a map for dynamic inspection
+}
+
+func updatingBoard() {
+	fmt.Println("Updating board")
 }
