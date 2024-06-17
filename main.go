@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/joho/godotenv"
 	"io"
@@ -20,22 +19,21 @@ func main() {
 
 	handleError(err)
 
+	//retrieve data from .env
 	api_key := os.Getenv("API_KEY")
-	oauth := os.Getenv("OAUTH_TOKEN")
+	//oauth := os.Getenv("OAUTH_TOKEN")
 	api_token := os.Getenv("API_TOKEN")
 
-	fmt.Println("api_key: ", api_key)
-	fmt.Println("oauth: ", oauth)
 	//board_id := "666c33eced5913ce5f990639"
 
 	//_url := "https://api.trello.com/1/actions/?key=" + api_key + "&token=" + oauth
 	//xURL := "https://api.trello.com/1/members/me/boards?key=" + api_key + "&token=" + oauth
-	xURL := "https://api.trello.com/1/members/me/?key=" + api_key + "&token=" + api_token
+	xURL := "https://api.trello.com/1/members/me/boards?fields=name,url&key=" + api_key + "&token=" + api_token
 
 	req, err := http.NewRequest("GET", xURL, nil)
 
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal("Error creating request: ", err)
 	}
 
 	//set headers
@@ -53,7 +51,7 @@ func main() {
 	bodybyte, err := io.ReadAll(resp.Body)
 
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Println("Error reading body: ", err.Error())
 	}
 	// Print the response status code
 	fmt.Println("Response Status:", resp.Status)
@@ -63,9 +61,6 @@ func main() {
 	fmt.Println("API Response as String:\n" + bodyString)
 
 	// If needed, you can unmarshal into a map for dynamic inspection
-	var result map[string]interface{}
-	json.Unmarshal(bodybyte, &result)
-	fmt.Printf("API Response as map: %+v\n", result)
 }
 
 func handleError(err error) {
