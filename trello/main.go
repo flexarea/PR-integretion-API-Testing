@@ -32,6 +32,11 @@ func handleError(err error) {
 		log.Fatal(err)
 	}
 }
+func handlingRequestError(err error) {
+	if err != nil {
+		log.Fatal("Error creating request: ", err)
+	}
+}
 
 func gettingBoard(api_key string, api_token string) {
 
@@ -41,10 +46,7 @@ func gettingBoard(api_key string, api_token string) {
 
 	req, err := http.NewRequest("GET", xURL, nil) //calling api, getting board info
 
-	if err != nil {
-		log.Fatal("Error creating request: ", err)
-	}
-
+	handlingRequestError(err)
 	//set headers
 
 	req.Header.Add("Accept", "application/json")
@@ -121,5 +123,16 @@ func updatingBoard(api_key string, api_token string) {
 	// Convert response body to string
 	bodyString := string(bodybyte)
 	fmt.Println("Response body:\n" + bodyString)
-
 }
+
+/*
+func readingList(api_key string, api_token string) {
+	_url := ""
+
+	//http request
+	req, err := http.NewRequest("GET", _url, nil)
+
+	if err != nil {
+	}
+}
+*/
