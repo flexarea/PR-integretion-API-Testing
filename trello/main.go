@@ -4,11 +4,12 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/joho/godotenv"
 	"io"
-	"log"
 	"net/http"
 	"os"
+	"trello/utils"
+
+	"github.com/joho/godotenv"
 )
 
 //https://api.trello.com/1/actions/?key=APIKey&token=APIToken
@@ -19,23 +20,14 @@ func main() {
 	//retrieve data from .env
 	err := godotenv.Load()
 
-	handleError(err)
+	utils.HandleError(err)
 	api_key := os.Getenv("API_KEY")
 	//oauth := os.Getenv("OAUTH_TOKEN")
 	api_token := os.Getenv("API_TOKEN")
-	//gettingBoard(api_key, api_token)
-	updatingBoard(api_key, api_token)
+	gettingBoard(api_key, api_token)
+	//updatingBoard(api_key, api_token)
 
-}
-func handleError(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-func handlingRequestError(err error) {
-	if err != nil {
-		log.Fatal("Error creating request: ", err)
-	}
+	utils.ErrLogTest()
 }
 
 func gettingBoard(api_key string, api_token string) {
@@ -46,7 +38,7 @@ func gettingBoard(api_key string, api_token string) {
 
 	req, err := http.NewRequest("GET", xURL, nil) //calling api, getting board info
 
-	handlingRequestError(err)
+	utils.ReqError(err)
 	//set headers
 
 	req.Header.Add("Accept", "application/json")
@@ -54,16 +46,12 @@ func gettingBoard(api_key string, api_token string) {
 	// Send the HTTP request
 	client := &http.Client{} //memory address so we can reuse the the http.client instance for multiple request
 	resp, err := client.Do(req)
-	if err != nil {
-		fmt.Println("Error sending request:", err)
-	}
+	utils.RespError(err)
 	defer resp.Body.Close()
 
 	bodybyte, err := io.ReadAll(resp.Body)
 
-	if err != nil {
-		fmt.Println("Error reading body: ", err.Error())
-	}
+	utils.ReadBodyError(err)
 	// Print the response status code
 	fmt.Println("Response Status:", resp.Status)
 
@@ -86,26 +74,19 @@ func updatingBoard(api_key string, api_token string) {
 	payloadBytes, err := json.Marshal(payload)
 	fmt.Println(payload)
 	fmt.Println(payloadBytes)
-	if err != nil {
-		log.Fatal("Error marshalling JSON: ", err)
-	}
+
 	body := bytes.NewBuffer(payloadBytes) //converts payloadBytes into buffer so can be used as io.reader
 	//create http request
 
 	req, err := http.NewRequest("PUT", _url, body)
-	if err != nil {
-		log.Fatal("Error sending request: ", err)
-	}
-
+	utils.ReqError(err)
 	//set Content-Type header
 	req.Header.Set("Content-Type", "application/json")
 
 	// Send the HTTP request
 	client := &http.Client{}
 	resp, err := client.Do(req)
-	if err != nil {
-		log.Fatalf("Error sending request: %v", err)
-	}
+	utils.RespError(err)
 	defer resp.Body.Close()
 
 	fmt.Println(resp.Status)
@@ -114,9 +95,7 @@ func updatingBoard(api_key string, api_token string) {
 
 	bodybyte, err := io.ReadAll(resp.Body)
 
-	if err != nil {
-		fmt.Println("Error reading body: ", err.Error())
-	}
+	utils.ReadBodyError(err)
 	// Print the response status code
 	fmt.Println("Response Status:", resp.Status)
 
