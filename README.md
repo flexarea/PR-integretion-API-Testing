@@ -21,9 +21,11 @@ Accomplishment checklist
 **Question and Issue:**
 Unable and don't know how to use call the api with OAUTH token instead of (single) API generated token
 
-4. **Updating a Card:**
-    - [x]  Write a function to update a card's details (e.g., name, description).
-    - [x]  Test the function by updating the card you created previously.
+4. **Reading Board:**
+    - [x]  Write a function to read Board's detail (e.g., name, description).
+5. **Updating Board:**
+    - [x]  Write a function to update Board's detail (e.g., name, description).
+    - [x]  Test the function by updating you created previously.
 
 -----------------------
 
