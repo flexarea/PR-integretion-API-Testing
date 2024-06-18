@@ -23,8 +23,8 @@ func main() {
 	api_key := os.Getenv("API_KEY")
 	//oauth := os.Getenv("OAUTH_TOKEN")
 	api_token := os.Getenv("API_TOKEN")
-	gettingBoard(api_key, api_token)
-	//updatingBoard(api_key, api_token)
+	//gettingBoard(api_key, api_token)
+	updatingBoard(api_key, api_token)
 
 }
 func handleError(err error) {
