@@ -22,19 +22,18 @@ func main() {
 
 	utils.HandleError(err)
 	api_key := os.Getenv("API_KEY")
-	//oauth := os.Getenv("OAUTH_TOKEN")
+	board_id := os.Getenv("BOARD_ID")
 	api_token := os.Getenv("API_TOKEN")
-	gettingBoard(api_key, api_token)
+	//gettingBoardLists(api_key, api_token, board_id)
 	//updatingBoard(api_key, api_token)
+	//gettingActions(api_key, api_token)
+	creatingList(api_key, api_token, board_id)
 
-	utils.ErrLogTest()
 }
 
 func gettingBoard(api_key string, api_token string) {
 
-	//board_id := "666c33eced5913ce5f990639"
-
-	xURL := "https://api.trello.com/1/members/me/boards?fields=name,url&key=" + api_key + "&token=" + api_token
+	xURL := "https://api.trello.com/1/members/me/boards?key=" + api_key + "&token=" + api_token
 
 	req, err := http.NewRequest("GET", xURL, nil) //calling api, getting board info
 
@@ -59,13 +58,11 @@ func gettingBoard(api_key string, api_token string) {
 	bodyString := string(bodybyte)
 	fmt.Println("API Response as String:\n" + bodyString)
 
-	// If needed, you can unmarshal into a map for dynamic inspection
 }
 
-func updatingBoard(api_key string, api_token string) {
+func updatingBoard(api_key string, api_token string, board_id string) {
 	fmt.Println("Updating board")
 
-	board_id := "666c33eced5913ce5f990639"
 	newname := "Testing_api"
 	_url := "https://api.trello.com/1/boards/" + board_id + "?key=" + api_key + "&token=" + api_token
 	//create JSON payload
@@ -104,14 +101,76 @@ func updatingBoard(api_key string, api_token string) {
 	fmt.Println("Response body:\n" + bodyString)
 }
 
-/*
-func readingList(api_key string, api_token string) {
-	_url := ""
+func gettingBoardLists(api_key string, api_token string, board_id string) {
 
-	//http request
-	req, err := http.NewRequest("GET", _url, nil)
+	xURL := "https://api.trello.com/1/boards/" + board_id + "/lists?key=" + api_key + "&token=" + api_token
 
+	req, err := http.NewRequest("GET", xURL, nil) //calling api, getting board info
+
+	utils.ReqError(err)
+	//set headers
+
+	req.Header.Add("Accept", "application/json")
+
+	// Send the HTTP request
+	client := &http.Client{} //memory address so we can reuse the the http.client instance for multiple request
+	resp, err := client.Do(req)
+	utils.RespError(err)
+	defer resp.Body.Close()
+
+	bodybyte, err := io.ReadAll(resp.Body)
+
+	utils.ReadBodyError(err)
+	// Print the response status code
+	fmt.Println("Response Status:", resp.Status)
+
+	// Convert response body to string
+	var prettyJSON bytes.Buffer
+	err = json.Indent(&prettyJSON, bodybyte, "", "  ")
 	if err != nil {
+		fmt.Println("Error formatting JSON:", err)
+		return
 	}
+
+	fmt.Println("API Response as String:\n" + prettyJSON.String())
+
 }
-*/
+
+func creatingList(api_key string, api_token string, board_id string) {
+	//url
+	newListName := "oreo"
+	_url := "https://api.trello.com/1/boards/" + board_id + "/lists?&key=" + api_key + "&token=" + api_token
+	//create json payload
+	payload := map[string]string{"name": newListName}
+	//convert payload into byte and marshal it
+	dataByte, err := json.Marshal(payload)
+	utils.JsonMarshalError(err)
+
+	//make http request
+	req, err := http.NewRequest("POST", _url, bytes.NewBuffer(dataByte))
+	utils.ReqError(err)
+	//set header
+
+	req.Header.Add("Content-Type", "application/json")
+
+	//send http request
+	client := &http.Client{}
+	resp, err := client.Do(req)
+
+	utils.RespError(err)
+	defer resp.Body.Close()
+	fmt.Println(resp.Status)
+	//Read and print response body
+
+	bodybyte, err := io.ReadAll(resp.Body)
+	utils.ReadBodyError(err)
+
+	var prettyJSON bytes.Buffer
+	err = json.Indent(&prettyJSON, bodybyte, "", "  ")
+	if err != nil {
+		fmt.Println("Error formatting JSON:", err)
+		return
+	}
+
+	fmt.Println("API Response as String:\n" + prettyJSON.String())
+}

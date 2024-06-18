@@ -37,7 +37,7 @@ Unable and don't know how to use call the api with OAUTH token instead of (singl
 
 Working on
 
-5. ** Updating a list
-
-
+6. **lists**
+    - [x]  Write a function to read all the lists on the board
+    - [x]  Write a function to create a new list on the board
 
