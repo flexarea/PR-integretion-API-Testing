@@ -20,7 +20,7 @@ func NewRequest(method, url string, payload interface{}) (*http.Request, error) 
 		body = bytes.NewBuffer(databyte)
 	}
 
-	req, err := NewRequest(method, url, body)
+	req, err := http.NewRequest(method, url, body)
 
 	if err != nil {
 		return nil, err
@@ -32,13 +32,13 @@ func NewRequest(method, url string, payload interface{}) (*http.Request, error) 
 }
 
 // handle client response
-func ClientResponse(req http.Request) (*http.Response, error) {
+func ClientResponse(req *http.Request) (*http.Response, error) {
 	client := &http.Client{}
-	return client.Do(&req)
+	return client.Do(req)
 }
 
 // parse response data
-func ParseResponse(resp http.Response) string {
+func ParseResponse(resp *http.Response) string {
 	defer resp.Body.Close()
 	fmt.Println(resp.Status)
 	databyte, err := io.ReadAll(resp.Body)

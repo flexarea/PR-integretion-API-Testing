@@ -15,6 +15,12 @@ func main() {
 	//retrieve data from .env
 	config, err := config.Load_config()
 	utils.LoadConfigError(err)
+	//getting boards
 	newBoar := structure.LoadEndpoint("members/me/boards?")
-	structure.GettingBoard(*newBoar, *config)
+	structure.GettingBoard(*newBoar, *config, false)
+
+	//getting board lists
+	newboardList := structure.LoadEndpoint("/lists?")
+	structure.GettingBoardLists(*newboardList, *config)
+
 }
