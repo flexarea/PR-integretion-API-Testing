@@ -19,7 +19,7 @@ func RespError(err error) {
 		log.Fatal("Error sending request: ", err)
 	}
 }
-func HandleError(err error) {
+func LoadConfigError(err error) {
 	if err != nil {
 		log.Fatal("Error loading .env: ", err)
 	}
