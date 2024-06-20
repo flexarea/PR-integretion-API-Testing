@@ -40,4 +40,7 @@ Working on
 6. **lists**
     - [x]  Write a function to read all the lists on the board
     - [x]  Write a function to create a new list on the board
+7. **lists**
+    - [x]  Write a function to read a list
+    - [x]  Write a function to create a new card on a list
 

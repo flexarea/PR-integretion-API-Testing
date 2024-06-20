@@ -21,6 +21,7 @@ func main() {
 
 	//getting board lists
 	newboardList := structure.LoadEndpoint("/lists?")
-	structure.GettingBoardLists(*newboardList, *config, true)
-
+	structure.GettingBoardLists(*newboardList, *config, false)
+	newList := structure.LoadEndpoint("?")
+	structure.GettingList(*newList, *config, true)
 }

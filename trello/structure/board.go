@@ -14,7 +14,7 @@ func GettingBoard(b Board, configuration config.Configs, flag bool) {
 	resp, err := config.ClientResponse(req)
 	utils.RespError(err)
 
-	if flag == false {
+	if !flag {
 		fmt.Println("")
 	} else {
 		fmt.Println(config.ParseResponse(resp))
@@ -28,7 +28,7 @@ func GettingBoardLists(b Board, configuration config.Configs, flag bool) {
 	resp, err := config.ClientResponse(req)
 	utils.RespError(err)
 
-	if flag == false {
+	if !flag {
 		fmt.Println("")
 	} else {
 		fmt.Println(config.ParseResponse(resp))
