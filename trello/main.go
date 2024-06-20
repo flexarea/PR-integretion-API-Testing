@@ -15,14 +15,16 @@ func main() {
 	//retrieve data from .env
 	config, err := config.Load_config()
 	utils.LoadConfigError(err)
+
 	//getting boards
 	newBoar := structure.LoadEndpoint("members/me/boards?")
 	structure.GettingBoard(*newBoar, *config, false)
 
 	myBoardLists := structure.LoadEndpoint("/lists?")
 	structure.GettingBoardLists(*myBoardLists, *config, false)
-	myList := structure.LoadEndpoint("/cards?")
-	structure.GettingListCards(*myList, *config, false)
-	myCard := structure.LoadEndpoint("?")
-	structure.GettingCardInfo(*myCard, *config, true)
+	// myList := structure.LoadEndpoint("?")
+	structure.DeleteCard(*config, "6673f79f91ffeff4759232f1", true)
+	myCard := structure.LoadEndpoint("/actions?")
+	structure.GettingCardAction(*myCard, *config, false)
+
 }

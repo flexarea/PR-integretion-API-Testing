@@ -1,7 +1,10 @@
 package structure
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
 	"trello/config"
 	"trello/utils"
 )
@@ -35,16 +38,41 @@ func GettingCardAction(b Board, configuration config.Configs, flag bool) {
 		fmt.Println(config.ParseResponse(resp))
 	}
 }
-func DeleteCard(b Board, configuration config.Configs, flag bool) {
-	url := configuration.MAIN_END_POINT + "cards/" + configuration.CARD_ID + b.Endpoint + fmt.Sprintf("key=%s&token=%s", configuration.API_KEY, configuration.API_TOKEN)
-	req, err := config.NewRequest("DELETE", url, nil)
-	utils.ReqError(err)
-	resp, err := config.ClientResponse(req)
-	utils.RespError(err)
+func DeleteCard(configuration config.Configs, cardID string, flag bool) error {
 
 	if !flag {
-		fmt.Println("")
-	} else {
-		fmt.Println(config.ParseResponse(resp))
+		return nil
 	}
+
+	url := fmt.Sprintf("%scards/%s?key=%s&token=%s", configuration.MAIN_END_POINT, cardID, configuration.API_KEY, configuration.API_TOKEN)
+
+	req, err := http.NewRequest("DELETE", url, nil)
+	if err != nil {
+		return err
+	}
+
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+
+	p, err := io.ReadAll(res.Body)
+	if err != nil {
+		return err
+	}
+
+	response := struct {
+		Limits map[string]interface{} `json:limits`
+	}{}
+
+	res.Body.Close()
+
+	err = json.Unmarshal(p, &response)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(response)
+
+	return nil
 }
