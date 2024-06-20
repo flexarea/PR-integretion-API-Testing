@@ -11,6 +11,7 @@ type Configs struct {
 	BOARD_ID       string
 	MAIN_END_POINT string
 	LIST_ID        string
+	CARD_ID        string
 }
 
 // load configuration variables
@@ -26,6 +27,7 @@ func Load_config() (*Configs, error) {
 		BOARD_ID:       os.Getenv("BOARD_ID"),
 		MAIN_END_POINT: os.Getenv("MAIN_END_POINT"),
 		LIST_ID:        os.Getenv("LIST_ID"),
+		CARD_ID:        os.Getenv("CARD_ID"),
 	}
 
 	return config, err

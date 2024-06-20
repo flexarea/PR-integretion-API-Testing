@@ -19,9 +19,10 @@ func main() {
 	newBoar := structure.LoadEndpoint("members/me/boards?")
 	structure.GettingBoard(*newBoar, *config, false)
 
-	//getting board lists
-	newboardList := structure.LoadEndpoint("/lists?")
-	structure.GettingBoardLists(*newboardList, *config, false)
-	newList := structure.LoadEndpoint("?")
-	structure.GettingList(*newList, *config, true)
+	myBoardLists := structure.LoadEndpoint("/lists?")
+	structure.GettingBoardLists(*myBoardLists, *config, false)
+	myList := structure.LoadEndpoint("/cards?")
+	structure.GettingListCards(*myList, *config, false)
+	myCard := structure.LoadEndpoint("?")
+	structure.GettingCardInfo(*myCard, *config, true)
 }
