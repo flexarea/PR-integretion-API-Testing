@@ -32,15 +32,16 @@ Unable and don't know how to use call the api with OAUTH token instead of (singl
 5. **Updating Board:**
     - [x]  Write a function to update Board's detail (e.g., name, description).
     - [x]  Test the function by updating you created previously.
-
------------------------
-
-Working on
-
 6. **lists**
     - [x]  Write a function to read all the lists on the board
     - [x]  Write a function to create a new list on the board
 7. **lists**
     - [x]  Write a function to read a list
+
+-----------------------
+
+Working on
+
+    - [x]  Write a function to read all cards from a list
     - [x]  Write a function to create a new card on a list
 
