@@ -28,20 +28,21 @@ https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization/
 Unable and don't know how to use call the api with OAUTH token instead of (single) API generated token
 -----------------------
 4. **Reading Board:**
-    - [x]  Write a function to read Board's detail (e.g., name, description).
+    - [x]  read Board's detail (e.g., name, description).
 5. **Updating Board:**
-    - [x]  Write a function to update Board's detail (e.g., name, description).
+    - [x]  update Board's detail (e.g., name, description).
     - [x]  Test the function by updating you created previously.
 6. **lists**
-    - [x]  Write a function to read all the lists on the board
-    - [x]  Write a function to create a new list on the board
-7. **lists**
-    - [x]  Write a function to read a list
+    - [x]  read all the lists on the board
+    - [x]  create a new list on the board
+    - [x]  read a list
+    - [x]  read all cards from a list
+    - [x]  delete a card
+7. **List Actions:**
 
 -----------------------
 
 Working on
 
-    - [x]  Write a function to read all cards from a list
-    - [x]  Write a function to create a new card on a list
+    - [x]  getting actions from list
 
