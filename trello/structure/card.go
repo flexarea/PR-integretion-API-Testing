@@ -1,27 +1,38 @@
 package structure
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"trello/config"
 	"trello/utils"
 )
 
 // getting a single list information
-func GettingCardInfo(b Board, configuration config.Configs, flag bool) {
-	url := configuration.MAIN_END_POINT + "cards/" + configuration.CARD_ID + b.Endpoint + fmt.Sprintf("key=%s&token=%s", configuration.API_KEY, configuration.API_TOKEN)
-	req, err := config.NewRequest("GET", url, nil)
-	utils.ReqError(err)
-	resp, err := config.ClientResponse(req)
-	utils.RespError(err)
-
+func GettingCardInfo(configuration config.Configs, cardID string, flag bool) {
 	if !flag {
-		fmt.Println("")
-	} else {
-		fmt.Println(config.ParseResponse(resp))
+		return
 	}
+	url := fmt.Sprintf("%scards/%s?key=%s&token=%s", configuration.MAIN_END_POINT, cardID, configuration.API_KEY, configuration.API_TOKEN)
+
+	//make new request
+	req, err := http.NewRequest("GET", url, nil)
+	utils.ReqError(err)
+	resp, err := http.DefaultClient.Do(req)
+	utils.RespError(err)
+	databyte, err := io.ReadAll(resp.Body)
+	utils.ReadBodyError(err)
+
+	//format json body data
+	var prettyJSON bytes.Buffer
+	err = json.Indent(&prettyJSON, databyte, "", " ")
+	if err != nil {
+		log.Fatal("Error formatting JSON: ", err)
+	}
+	fmt.Println(prettyJSON.String())
 }
 
 // getting all cards from a single list
@@ -39,7 +50,7 @@ func GettingCardAction(b Board, configuration config.Configs, flag bool) {
 	}
 }
 func DeleteCard(configuration config.Configs, cardID string, flag bool) error {
-
+	//code modified by CTO
 	if !flag {
 		return nil
 	}
@@ -47,25 +58,18 @@ func DeleteCard(configuration config.Configs, cardID string, flag bool) error {
 	url := fmt.Sprintf("%scards/%s?key=%s&token=%s", configuration.MAIN_END_POINT, cardID, configuration.API_KEY, configuration.API_TOKEN)
 
 	req, err := http.NewRequest("DELETE", url, nil)
-	if err != nil {
-		return err
-	}
+	utils.ReqError(err)
 
 	res, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return err
-	}
-
+	utils.ReqError(err)
 	p, err := io.ReadAll(res.Body)
-	if err != nil {
-		return err
-	}
+	utils.ReadBodyError(err)
 
 	response := struct {
 		Limits map[string]interface{} `json:limits`
 	}{}
 
-	res.Body.Close()
+	defer res.Body.Close()
 
 	err = json.Unmarshal(p, &response)
 	if err != nil {

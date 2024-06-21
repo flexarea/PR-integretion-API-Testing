@@ -23,8 +23,9 @@ func main() {
 	myBoardLists := structure.LoadEndpoint("/lists?")
 	structure.GettingBoardLists(*myBoardLists, *config, false)
 	// myList := structure.LoadEndpoint("?")
-	structure.DeleteCard(*config, "6673f79f91ffeff4759232f1", true)
+	structure.DeleteCard(*config, "6673f79f91ffeff4759232f1", false)
 	myCard := structure.LoadEndpoint("/actions?")
 	structure.GettingCardAction(*myCard, *config, false)
+	structure.GettingCardInfo(*config, "66754f33929b363c060ae8a7", true)
 
 }
