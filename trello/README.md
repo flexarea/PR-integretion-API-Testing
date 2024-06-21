@@ -39,10 +39,13 @@ Unable and don't know how to use call the api with OAUTH token instead of (singl
     - [x]  read all cards from a list
     - [x]  delete a card
 7. **List Actions:**
+8. **lists**
+    - [x]  read information from card
+    - [x]  Move card to targetList within same Board
 
 -----------------------
 
 Working on
 
-    - [x]  getting actions from list
+    - [x]  refactoring code
 
