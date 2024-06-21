@@ -36,6 +36,7 @@ func GettingCardInfo(configuration config.Configs, cardID string, flag bool) {
 }
 
 // getting all cards from a single list
+// ** To update
 func GettingCardAction(b Board, configuration config.Configs, flag bool) {
 	url := configuration.MAIN_END_POINT + "cards/" + configuration.CARD_ID + b.Endpoint + fmt.Sprintf("key=%s&token=%s", configuration.API_KEY, configuration.API_TOKEN)
 	req, err := config.NewRequest("GET", url, nil)
@@ -79,4 +80,37 @@ func DeleteCard(configuration config.Configs, cardID string, flag bool) error {
 	fmt.Println(response)
 
 	return nil
+}
+
+func MoveCardtoList(configuration config.Configs, cardID string, targetListId string, flag bool) {
+	if !flag {
+		return
+	}
+	url := fmt.Sprintf("%scards/%s?key=%s&token=%s", configuration.MAIN_END_POINT, cardID, configuration.API_KEY, configuration.API_TOKEN)
+	//create json payload
+	payload := map[string]string{"idList": targetListId}
+	//make new request
+
+	dataByte, err := json.Marshal(payload)
+
+	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(dataByte))
+	utils.ReqError(err)
+	req.Header.Set("Content-Type", "application/json")
+
+	//send http request
+	resp, err := http.DefaultClient.Do(req)
+	utils.RespError(err)
+
+	defer resp.Body.Close()
+
+	databyte, err := io.ReadAll(resp.Body)
+	utils.ReadBodyError(err)
+
+	//format json body data
+	var prettyJSON bytes.Buffer
+	err = json.Indent(&prettyJSON, databyte, "", " ")
+	if err != nil {
+		log.Fatal("Error formatting JSON: ", err)
+	}
+	fmt.Println(prettyJSON.String())
 }
