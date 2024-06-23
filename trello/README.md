@@ -1,7 +1,7 @@
 Testing Trello API
 
 -----------------------
-Accomplishment checklist
+Progress checklist
 
 1. **Trello Account and API Key:**
     - [x]  Create a Trello account 
