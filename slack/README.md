@@ -4,7 +4,7 @@ Slack Trello API
 -----------------------
 Progress checklist
 
-working on
+Done
 -----------------------
 1. **Slack Account and API Key:**
     - [x]  Create a slack account 
@@ -18,3 +18,9 @@ working on
     - [x]  Make a test API call to slack api (joining a conversation channel in this case) to ensure authentication is working
     - [x] retrieve messages from a target channel 
     - [x] send messages to a target channel 
+
+
+-----------------------
+working on
+-----------------------
+**waiting for feedback**
