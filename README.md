@@ -1,4 +1,4 @@
-**Automated PR Action Integration: Updating Trello and Slack Notifications via a Scalable Modular Server:wq**
+**Automated Multi-API Integration: Scalable Server for GitHub PR Actions, Trello Updates, and Slack Notifications**
 -------------------------
 
 ### **Project Overview**
