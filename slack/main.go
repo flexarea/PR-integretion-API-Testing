@@ -25,7 +25,7 @@ func main() {
 	fmt.Println(bot_token)
 	fmt.Println(main_end_point)
 	channelID := "C06KPMXQS4U"
-	newMEssage := "hello world from iTerm"
+	newMEssage := "testing at 4:55 "
 	sendMessage(bot_token, main_end_point, channelID, newMEssage)
 }
 
