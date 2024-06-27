@@ -94,13 +94,13 @@ API-Server-Integration/
      - Data Input
      - Data Processing
      - Data Output
-
+```
 ### 6. **Security Considerations**
    - **Authentication Mechanisms**
    - **Authorization Levels**
    - **Data Encryption**
    - **Vulnerability Management**
-
+```
 ### 7. **Error Handling and Logging**
    - **Error Types and Codes**
    - Critical Errors (http, syntax, system)
