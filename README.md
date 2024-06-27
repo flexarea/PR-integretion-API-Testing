@@ -103,12 +103,13 @@ API-Server-Integration/
 
 ### 7. **Error Handling and Logging**
    - **Error Types and Codes**
+   - Critical Errors (http, syntax, system)
    - **Error Responses**
+   - For http errors will use system traditional error message (log.Fatal or fmt.println(err))
    - **Logging Strategy**
-     - Log Levels
-     - Log Format
-     - Log Storage and Rotation
-
+     - Log Levels (DEBUGGING, INFO, ERRORS)
+     - Log Format: Event & Context Description
+     - Log Storage: Local file system during development (testing) & Cloud Platform / Database when pushed to production
 ### 8. **Testing Strategy**
    - **Unit Testing**
    - **Integration Testing**
@@ -139,13 +140,8 @@ API-Server-Integration/
    - **API Documentation**
    - **Training Materials**
 
-### 12. **Project Management**
-   - **Timeline and Milestones**
-   - **Resource Allocation**
-   - **Risk Management**
-   - **Communication Plan**
 
-### 13. **Appendices**
+### 12. **Appendices**
    - **Glossary**
    - **References**
    - **Additional Notes**
