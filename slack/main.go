@@ -23,7 +23,6 @@ func main() {
 	}
 	bot_token := os.Getenv("BOT_TOKEN")
 	main_end_point := os.Getenv("MAIN_END_POINT")
-	fmt.Println(bot_token)
 	fmt.Println(main_end_point)
 	channelID := "C06KPMXQS4U"
 	newMEssage := fmt.Sprint(time.Now())
@@ -90,7 +89,7 @@ func sendMessage(bot_token, main_end_point, channelID, message string) {
 	}
 	//set headers
 	req.Header.Set("Authorization", "Bearer "+bot_token)
-	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
