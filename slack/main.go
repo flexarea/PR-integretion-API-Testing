@@ -10,6 +10,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"time"
 )
 
 func main() {
@@ -25,7 +26,7 @@ func main() {
 	fmt.Println(bot_token)
 	fmt.Println(main_end_point)
 	channelID := "C06KPMXQS4U"
-	newMEssage := "testing at 4:55 "
+	newMEssage := fmt.Sprint(time.Now())
 	sendMessage(bot_token, main_end_point, channelID, newMEssage)
 }
 
