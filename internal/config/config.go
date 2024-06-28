@@ -28,7 +28,8 @@ func Load_config() (*Configs, error) {
 		return nil, err
 	}
 	config := &Configs{
-		BOT_TOKEN: os.Getenv("BOT_TOKEN"),
+		BOT_TOKEN:            os.Getenv("BOT_TOKEN"),
+		SLACK_MAIN_END_POINT: os.Getenv("SLACK_MAIN_END_POINT"),
 	}
 
 	return config, err
