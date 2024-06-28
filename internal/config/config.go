@@ -21,13 +21,13 @@ type Configs struct {
 }
 
 // load configuration variables
-func Load_config() (*Configs, error) {
+func Load_config() (Configs, error) {
 	err := godotenv.Load()
 
 	if err != nil {
-		return nil, err
+		return Configs{}, err
 	}
-	config := &Configs{
+	config := Configs{
 		BOT_TOKEN:            os.Getenv("BOT_TOKEN"),
 		SLACK_MAIN_END_POINT: os.Getenv("SLACK_MAIN_END_POINT"),
 	}
