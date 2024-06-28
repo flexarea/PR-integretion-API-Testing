@@ -29,7 +29,7 @@ func main() {
 	sendMessage(bot_token, main_end_point, channelID, newMEssage)
 }
 
-func conversationHistory(bot_token, main_end_point, channelID string) {
+func ConversationHistory(bot_token, main_end_point, channelID string) {
 	//create url
 
 	url := fmt.Sprintf("%sconversations.history", main_end_point)
@@ -69,7 +69,7 @@ func conversationHistory(bot_token, main_end_point, channelID string) {
 	fmt.Println(prettyJSON.String())
 }
 
-func sendMessage(bot_token, main_end_point, channelID, message string) {
+func SendMessage(bot_token, main_end_point, channelID, message string) {
 	//create url
 	url := fmt.Sprintf("%schat.postMessage", main_end_point)
 
