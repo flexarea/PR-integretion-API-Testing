@@ -133,9 +133,7 @@ API-Server-Integration/
 
 ### 12. **Appendices**
    - **References**
-   - [Go Programming Notes & Dev Kit](https://www.notion.so/Golang-a57d9ff2571245ec80e84fce95591e2d?pvs=4)
    - **Additional Notes**
-
 ---
 
 
