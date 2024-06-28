@@ -22,7 +22,6 @@
      - API token and API key configuration for Trello authentication
      - Error Handling
    - **Non-Functional Requirements**
-     - Performance and Scalability
      - Security
      - Usability
      - Maintainability
@@ -57,7 +56,6 @@ API-Server-Integration/
 ```
    - **Deployment Architecture**
      - Google Cloud -> Server & cloud service
-     - (Deployment Pipeline)
 
 ### 4. **API Specifications**
    - **Endpoints**
@@ -128,22 +126,14 @@ API-Server-Integration/
    - **Deployment Process**
    - **Environment Configuration**
      - Development
-     - Staging
-     - Production
-   - **Monitoring and Alerts**
    - **Backup and Recovery**
-   - **Maintenance Plan**
 
-### 11. **Documentation and Training**
+### 11. **User Documentation**
    - **User Documentation**
-   - **Developer Documentation**
-   - **API Documentation**
-   - **Training Materials**
-
 
 ### 12. **Appendices**
-   - **Glossary**
    - **References**
+   - [Go Programming Notes & Dev Kit](https://www.notion.so/Golang-a57d9ff2571245ec80e84fce95591e2d?pvs=4)
    - **Additional Notes**
 
 ---
