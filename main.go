@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"os"
-
+	"github.com/flexarea/PR-integration-API-Testing/internal/slack"
 	"github.com/joho/godotenv"
+	"os"
 )
 
 func main() {
@@ -22,4 +22,5 @@ func main() {
 	slack_main_end_point := os.Getenv("SLACK_MAIN_END_POINT")
 	fmt.Println(bot_token)
 	fmt.Println(slack_main_end_point)
+	slack.Test()
 }

@@ -7,26 +7,10 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"os"
-
-	"github.com/joho/godotenv"
 )
 
-func main() {
-	fmt.Println("Calling Slack API")
-	//load .env
-	err := godotenv.Load()
-
-	if err != nil {
-		return
-	}
-	bot_token := os.Getenv("BOT_TOKEN")
-	main_end_point := os.Getenv("MAIN_END_POINT")
-	fmt.Println(bot_token)
-	fmt.Println(main_end_point)
-	channelID := "C06KPMXQS4U"
-	newMEssage := "testing at 4:55 "
-	sendMessage(bot_token, main_end_point, channelID, newMEssage)
+func Test() {
+	fmt.Println("Testing from internal/slack")
 }
 
 func ConversationHistory(bot_token, main_end_point, channelID string) {
