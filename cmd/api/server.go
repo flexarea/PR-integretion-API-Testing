@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	"log"
@@ -6,12 +6,13 @@ import (
 	"os"
 )
 
-func main() {
+func Api() {
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stderr, "INFO\t", log.Ldate|log.Ltime)
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", home)
+	mux.HandleFunc("/", Home)
+	mux.HandleFunc("/newGitActionUpdate", GitUpdate)
 
 	//server configuration
 	server := &http.Server{

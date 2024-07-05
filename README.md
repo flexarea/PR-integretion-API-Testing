@@ -31,7 +31,7 @@
 ```
 API-Server-Integration/
 ├── cmd/
-│   ├── http/
+│   ├── api/
 │   │   └── server.go          # HTTP server setup and route handling
 │   │   └── handlers.go        # Entry point of the application
 │   │ 
