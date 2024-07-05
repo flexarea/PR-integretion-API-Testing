@@ -6,16 +6,12 @@ import (
 	"os"
 )
 
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("API Server Integration Home"))
-}
-
 func main() {
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stderr, "INFO\t", log.Ldate|log.Ltime)
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", homeHandler)
+	mux.HandleFunc("/", home)
 
 	//server configuration
 	server := &http.Server{
