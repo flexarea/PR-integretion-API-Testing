@@ -1,22 +1,20 @@
 package main
 
 import (
-	"fmt"
-	"github.com/flexarea/PR-integration-API-Testing/internal/config"
-	"github.com/flexarea/PR-integration-API-Testing/internal/slack"
+	"log"
+	"net/http"
 )
 
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("API Server Integration Home"))
+}
+
 func main() {
-	fmt.Println("Testing from cmd")
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", homeHandler)
 
-	//load .env
-	configs, err := config.Load_config()
-	if err != nil {
-		return
-	}
-	//loading environment variables for slack
-	channelID := "C06KPMXQS4U"
-	newMessage := "sending from branch v.1.0.1"
-	slack.SendMessage(configs.BOT_TOKEN, configs.SLACK_MAIN_END_POINT, channelID, newMessage)
-
+	//start web server
+	log.Println("starting server on :4000")
+	err := http.ListenAndServe(":4000", mux)
+	log.Fatal(err)
 }
