@@ -22,9 +22,9 @@ type Configs struct {
 
 // load configuration variables
 func Load_config() (Configs, error) {
-	err := godotenv.Load()
-
+	err := godotenv.Load(".env")
 	if err != nil {
+		fmt.Println("Error loading .env file:", err)
 		return Configs{}, err
 	}
 	config := Configs{
