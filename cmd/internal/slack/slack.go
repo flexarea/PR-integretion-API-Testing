@@ -1,4 +1,4 @@
-package main
+package slack
 
 import (
 	"bytes"
@@ -7,29 +7,13 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"os"
-
-	"github.com/joho/godotenv"
-	"time"
 )
 
-func main() {
-	fmt.Println("Calling Slack API")
-	//load .env
-	err := godotenv.Load()
-
-	if err != nil {
-		return
-	}
-	bot_token := os.Getenv("BOT_TOKEN")
-	main_end_point := os.Getenv("MAIN_END_POINT")
-	fmt.Println(main_end_point)
-	channelID := "C06KPMXQS4U"
-	newMEssage := fmt.Sprint(time.Now())
-	sendMessage(bot_token, main_end_point, channelID, newMEssage)
+func Test() {
+	fmt.Println("Testing from internal/slack")
 }
 
-func conversationHistory(bot_token, main_end_point, channelID string) {
+func ConversationHistory(bot_token, main_end_point, channelID string) {
 	//create url
 
 	url := fmt.Sprintf("%sconversations.history", main_end_point)
@@ -69,7 +53,7 @@ func conversationHistory(bot_token, main_end_point, channelID string) {
 	fmt.Println(prettyJSON.String())
 }
 
-func sendMessage(bot_token, main_end_point, channelID, message string) {
+func SendMessage(bot_token, main_end_point, channelID, message string) {
 	//create url
 	url := fmt.Sprintf("%schat.postMessage", main_end_point)
 
@@ -89,7 +73,7 @@ func sendMessage(bot_token, main_end_point, channelID, message string) {
 	}
 	//set headers
 	req.Header.Set("Authorization", "Bearer "+bot_token)
-	req.Header.Set("Content-Type", "application/json; charset=utf-8")
+	req.Header.Set("Content-Type", "application/json")
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {

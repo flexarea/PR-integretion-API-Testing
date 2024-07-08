@@ -31,8 +31,13 @@
 ```
 API-Server-Integration/
 ├── cmd/
-│   └── server/
-│       └── main.go            # Entry point of the application
+│   ├── api/
+│   │   └── server.go          # HTTP server setup and route handling
+│   │   └── handlers.go        # Entry point of the application
+│   │ 
+│   ├── main.go            # Entry point of the application
+│   ├── .env               # Environment variables file ( API keys, main endpoints, Bot and api token)
+│   └── config.go          # configuration and environment variable handling 
 ├── internal/
 │   ├── trello/
 │   │   ├── trello.go          # Functions for interacting with Trello API
@@ -41,14 +46,11 @@ API-Server-Integration/
 │   │   └── slack.go           # Functions for interacting with Slack API
 │   ├── config/
 │   │   └── config.go          # Configuration and environment variable handling
-│   ├── http/
-│   │   └── server.go          # HTTP server setup and route handling
 ├── pkg/
 │   ├── models/
 │   │   └── models.go          # Data models and types used in the application
 ├── scripts/
 │   └── deploy.sh              # Deployment scripts and infrastructure setup
-├── .env                       # Environment variables file ( API keys, main endpoints, Bot and api token)
 ├── .gitignore                 # Git ignore file (ignore .env)
 ├── go.mod                     # Go module file
 ├── go.sum                     # Go module dependencies file
