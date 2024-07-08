@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func Api() {
+func Server() {
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stderr, "INFO\t", log.Ldate|log.Ltime)
 
