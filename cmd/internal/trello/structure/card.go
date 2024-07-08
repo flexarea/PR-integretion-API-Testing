@@ -37,8 +37,8 @@ func GettingCardInfo(configuration config.Configs, cardID string, flag bool) {
 
 // getting all cards from a single list
 // ** To update
-func GettingCardAction(b Board, configuration config.Configs, flag bool) {
-	url := configuration.MAIN_END_POINT + "cards/" + configuration.CARD_ID + b.Endpoint + fmt.Sprintf("key=%s&token=%s", configuration.API_KEY, configuration.API_TOKEN)
+func GettingCardAction(configuration config.Configs, flag bool) {
+	url := configuration.MAIN_END_POINT + "cards/" + configuration.CARD_ID + configuration.Endpoint + fmt.Sprintf("key=%s&token=%s", configuration.API_KEY, configuration.API_TOKEN)
 	req, err := config.NewRequest("GET", url, nil)
 	utils.ReqError(err)
 	resp, err := config.ClientResponse(req)
