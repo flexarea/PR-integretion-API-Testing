@@ -45,3 +45,6 @@ func Load_config() (Configs, error) {
     /* rest of the code below */
 ```
 
+```bash
+go run *.go
+```
