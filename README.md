@@ -13,9 +13,10 @@ API-Server-Integration/
 ├── internal/
 │   ├── trello/
 │   │   ├── trello.go          # Functions for interacting with Trello API
-│   │   ├── webhook.go         # Handles GitHub webhook events
+│   │   ├── trello_test.go      
 │   ├── slack/
 │   │   └── slack.go           # Functions for interacting with Slack API
+        ├── slack_test.go 
 │   ├── config/
 │   │   └── config.go          # Configuration and environment variable handling
 ├── pkg/
