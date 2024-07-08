@@ -16,9 +16,7 @@ API-Server-Integration/
 │   │   ├── trello_test.go      
 │   ├── slack/
 │   │   └── slack.go           # Functions for interacting with Slack API
-        ├── slack_test.go 
-│   ├── config/
-│   │   └── config.go          # Configuration and environment variable handling
+│   │   ├── slack_test.go 
 ├── pkg/
 │   ├── models/
 │   │   └── models.go          # Data models and types used in the application
