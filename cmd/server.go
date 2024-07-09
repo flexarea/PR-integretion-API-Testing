@@ -1,4 +1,4 @@
-package api
+package main
 
 import (
 	"log"
@@ -13,6 +13,7 @@ func Server() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", Home)
 	mux.HandleFunc("/newGitActionUpdate", GitUpdate)
+	mux.HandleFunc("/slackMessage", Slack)
 
 	//server configuration
 	server := &http.Server{

@@ -1,6 +1,7 @@
-package api
+package main
 
 import (
+	"github.com/flexarea/PR-integration-API-Testing/cmd/internal/slack"
 	"net/http"
 )
 
@@ -18,4 +19,16 @@ func GitUpdate(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Allow", "POST")
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 	}
+}
+func Slack(w http.ResponseWriter, r *http.Request) {
+
+	newMessage := r.URL.Query().Get("message")
+	channelId := r.URL.Query().Get("channelID")
+	env, err := Load_config()
+
+	if err == nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
+	slack.SendMessage(env.BOT_TOKEN, env.SLACK_MAIN_END_POINT, channelId, newMessage)
 }
