@@ -23,6 +23,8 @@ FROM debian:bookworm
 #copy the compiled binary from the builder stage
 COPY --from=builder /app/main /main 
 
+COPY .env ./
+
 EXPOSE 8080
 
 #command to run executable
