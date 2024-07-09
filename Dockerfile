@@ -15,4 +15,13 @@ RUN go mod download
 COPY . .
 
 #build go app
+RUN CGO_ENABLE=0 GOOS=linux go build -o /app/main cmd/*.go
+
+#copy the compiled binary from the builder stage
+COPY --from=builder /app/main /main 
+
+EXPOSE 8080
+
+#command to run executable
+CMD ["/main"]
 
