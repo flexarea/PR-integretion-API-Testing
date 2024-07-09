@@ -16,14 +16,18 @@ func Server() {
 	mux.HandleFunc("/slackMessage", Slack)
 
 	//server configuration
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 	server := &http.Server{
-		Addr:     ":4000",
+		Addr:     ":" + port,
 		ErrorLog: errorLog,
 		Handler:  mux,
 	}
 
 	//start web server
-	infoLog.Println("starting server on :4000")
+	infoLog.Printf("starting server on port %s", port)
 	err := server.ListenAndServe()
 	errorLog.Fatal(err)
 }
