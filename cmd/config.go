@@ -3,8 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
-
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 )
 
 func Test() {
@@ -16,21 +15,29 @@ func Test() {
 }
 
 type Configs struct {
-	BOT_TOKEN            string
-	SLACK_MAIN_END_POINT string
+	BOT_TOKEN             string
+	SLACK_MAIN_END_POINT  string
+	API_KEY               string
+	API_TOKEN             string
+	TRELLO_MAIN_END_POINT string
 }
 
 // load configuration variables
 func Load_config() (Configs, error) {
-	err := godotenv.Load(".env")
-	if err != nil {
-		fmt.Println("Error loading .env file:", err)
-		return Configs{}, err
-	}
 	config := Configs{
-		BOT_TOKEN:            os.Getenv("BOT_TOKEN"),
-		SLACK_MAIN_END_POINT: os.Getenv("SLACK_MAIN_END_POINT"),
+		BOT_TOKEN:             os.Getenv("BOT_TOKEN"),
+		SLACK_MAIN_END_POINT:  os.Getenv("SLACK_MAIN_END_POINT"),
+		API_KEY:               os.Getenv("API_KEY"),
+		API_TOKEN:             os.Getenv("API_TOKEN"),
+		TRELLO_MAIN_END_POINT: os.Getenv("TRELLO_MAIN_END_POINT"),
 	}
 
-	return config, err
+	if config.BOT_TOKEN == "" {
+		return Configs{}, fmt.Errorf("BOT_TOKEN env not set")
+	}
+	if config.SLACK_MAIN_END_POINT == "" {
+		return Configs{}, fmt.Errorf("SLACK_MAIN_END_POINT env not set")
+	}
+
+	return config, nil
 }
