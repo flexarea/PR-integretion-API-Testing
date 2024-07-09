@@ -24,7 +24,6 @@ FROM debian:bookworm
 COPY --from=builder /app/main /main 
 
 
-EXPOSE 8080
 
 #command to run executable
 CMD ["/main"]
