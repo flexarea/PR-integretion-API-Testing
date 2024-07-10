@@ -38,7 +38,7 @@ func Slack(w http.ResponseWriter, r *http.Request) {
 	err = slack.SendMessage(env.BOT_TOKEN, env.SLACK_MAIN_END_POINT, channelId, newMessage)
 
 	if err != nil {
-		log.Print("Error sending message to slack")
+		log.Print("Error sending message to slack", err)
 		http.Error(w, "Service unavailable", http.StatusServiceUnavailable)
 		return
 	}

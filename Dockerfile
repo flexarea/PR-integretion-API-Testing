@@ -2,6 +2,9 @@
 ARG GO_VERSION=1.22.3
 FROM golang:${GO_VERSION}-bookworm as builder
 
+# Update package lists and install ca-certificates
+RUN apt-get update && apt-get install -y ca-certificates
+RUN update-ca-certificates
 #set current work directory inside the container
 WORKDIR /app
 
