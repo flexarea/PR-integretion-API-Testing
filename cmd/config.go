@@ -25,11 +25,8 @@ type Configs struct {
 // load configuration variables
 func Load_config() (Configs, error) {
 	config := Configs{
-		BOT_TOKEN:             os.Getenv("BOT_TOKEN"),
-		SLACK_MAIN_END_POINT:  os.Getenv("SLACK_MAIN_END_POINT"),
-		API_KEY:               os.Getenv("API_KEY"),
-		API_TOKEN:             os.Getenv("API_TOKEN"),
-		TRELLO_MAIN_END_POINT: os.Getenv("TRELLO_MAIN_END_POINT"),
+		BOT_TOKEN:            os.Getenv("BOT_TOKEN"),
+		SLACK_MAIN_END_POINT: os.Getenv("SLACK_MAIN_END_POINT"),
 	}
 
 	if config.BOT_TOKEN == "" {
