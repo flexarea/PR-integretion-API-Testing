@@ -20,6 +20,7 @@ func GitUpdate(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		w.Header().Set("Allow", "POST")
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+		return
 	}
 }
 func Slack(w http.ResponseWriter, r *http.Request) {
@@ -30,7 +31,18 @@ func Slack(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Fatal(err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		return
 	}
 
-	slack.SendMessage(env.BOT_TOKEN, env.SLACK_MAIN_END_POINT, channelId, newMessage)
+	err = slack.SendMessage(env.BOT_TOKEN, env.SLACK_MAIN_END_POINT, channelId, newMessage)
+
+	if err != nil {
+		log.Print("Error sending message to slack")
+		http.Error(w, "Service unavailable", http.StatusServiceUnavailable)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Message sent to slack"))
 }

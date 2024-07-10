@@ -53,7 +53,7 @@ func ConversationHistory(bot_token, main_end_point, channelID string) {
 	fmt.Println(prettyJSON.String())
 }
 
-func SendMessage(bot_token, main_end_point, channelID, message string) {
+func SendMessage(bot_token, main_end_point, channelID, message string) error {
 	//create url
 	url := fmt.Sprintf("%schat.postMessage", main_end_point)
 
@@ -65,11 +65,11 @@ func SendMessage(bot_token, main_end_point, channelID, message string) {
 	///marshal json
 	payloadbyte, err := json.Marshal(payload)
 	if err != nil {
-		return
+		return err
 	}
 	req, err := http.NewRequest("POST", url, bytes.NewReader(payloadbyte))
 	if err != nil {
-		log.Fatal("Error sending request", err)
+		return err
 	}
 	//set headers
 	req.Header.Set("Authorization", "Bearer "+bot_token)
@@ -77,7 +77,7 @@ func SendMessage(bot_token, main_end_point, channelID, message string) {
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		log.Fatal("Error receiving respond", err)
+		return err
 	}
 	//read respond
 	databyte, err := io.ReadAll(res.Body)
@@ -85,8 +85,9 @@ func SendMessage(bot_token, main_end_point, channelID, message string) {
 	var prettyJSON bytes.Buffer
 	err = json.Indent(&prettyJSON, databyte, "", " ")
 	if err != nil {
-		log.Fatal("Error formatting JSON: ", err)
+		return err
 	}
 	fmt.Println(prettyJSON.String())
 
+	return nil
 }
