@@ -20,8 +20,6 @@ API-Server-Integration/
 ├── pkg/
 │   ├── models/
 │   │   └── models.go          # Data models and types used in the application
-├── scripts/
-│   └── deploy.sh              # Deployment scripts and infrastructure setup
 ├── .gitignore                 # Git ignore file (ignore .env)
 ├── .env               # Environment variables file ( API keys, main endpoints, Bot and api token)
 ├── go.mod                     # Go module file
