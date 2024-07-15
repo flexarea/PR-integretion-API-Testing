@@ -20,6 +20,10 @@ type Configs struct {
 	API_KEY               string
 	API_TOKEN             string
 	TRELLO_MAIN_END_POINT string
+	DB_HOST               string
+	DB_DATABASE           string
+	DB_USERNAME           string
+	DB_PASSWORD           string
 }
 
 // load configuration variables
