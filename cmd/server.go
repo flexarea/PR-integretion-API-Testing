@@ -33,15 +33,23 @@ func Server() {
 	infoLog.Printf("starting server on port %s", port)
 	err := server.ListenAndServe()
 	errorLog.Fatal(err)
+	env, err := Load_config()
 
-	connStr := "postgres://[user]:[password]@[neon_hostname]/[dbname]?sslmode=require"
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	connStr := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=require", env.DB_USERNAME, env.DB_PASSWORD, env.DB_HOST, env.DB_DATABASE)
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		panic(err)
 	}
+
 	defer db.Close()
+
 	var version string
+
 	if err := db.QueryRow("select version()").Scan(&version); err != nil {
 		panic(err)
 	}
