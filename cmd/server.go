@@ -41,10 +41,7 @@ func Server() {
 
 	connStr := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=require", env.DB_USERNAME, env.DB_PASSWORD, env.DB_HOST, env.DB_DATABASE)
 
-	db, err := sql.Open("postgres", connStr)
-	if err != nil {
-		panic(err)
-	}
+	db, err := OpenDB(connStr)
 
 	defer db.Close()
 
@@ -54,4 +51,18 @@ func Server() {
 		panic(err)
 	}
 	fmt.Printf("version=%s\n", version)
+}
+
+func OpenDB(connectionString string) (*sql.DB, error) {
+
+	db, err := sql.Open("postgres", connectionString)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := db.Ping(); err != nil {
+		return nil, err
+	}
+
+	return db, nil
 }
