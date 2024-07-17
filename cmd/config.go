@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/joho/godotenv"
 	"os"
-	// "github.com/joho/godotenv"
 )
 
 func Test() {
@@ -28,9 +28,14 @@ type Configs struct {
 
 // load configuration variables
 func Load_config() (Configs, error) {
+	godotenv.Load(".env")
 	config := Configs{
 		BOT_TOKEN:            os.Getenv("BOT_TOKEN"),
 		SLACK_MAIN_END_POINT: os.Getenv("SLACK_MAIN_END_POINT"),
+		DB_HOST:              os.Getenv("DB_HOST"),
+		DB_DATABASE:          os.Getenv("DB_DATABASE"),
+		DB_USERNAME:          os.Getenv("DB_USERNAME"),
+		DB_PASSWORD:          os.Getenv("DB_PASSWORD"),
 	}
 
 	if config.BOT_TOKEN == "" {

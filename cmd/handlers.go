@@ -24,7 +24,6 @@ func GitUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if app == nil || app.logs == nil {
-		app.infoLog.Printf("app or app.logs is nil: app=%v, app.logs=%v", app, app.logs)
 		http.Error(w, "Server not initialized properly", http.StatusInternalServerError)
 		return
 	}

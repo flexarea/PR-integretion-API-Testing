@@ -8,9 +8,7 @@ import (
 )
 
 type Application struct {
-	logs    *models.LogsModel
-	infoLog *log.Logger
-	errLog  *log.Logger
+	logs *models.LogsModel
 }
 
 func main() {

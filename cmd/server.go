@@ -32,11 +32,6 @@ func Server() {
 		Handler:  mux,
 	}
 
-	//start web server
-	infoLog.Printf("starting server on port %s", port)
-	err := server.ListenAndServe()
-	errorLog.Fatal(err)
-
 	env, err := Load_config()
 
 	if err != nil {
@@ -55,10 +50,13 @@ func Server() {
 
 	//populate application struct (which populate models.LogModels struct in models package)
 	app = &Application{
-		logs:    &models.LogsModel{DB: db},
-		infoLog: infoLog,
-		errLog:  errorLog,
+		logs: &models.LogsModel{DB: db},
 	}
+
+	//start web server
+	infoLog.Printf("starting server on port %s", port)
+	err = server.ListenAndServe()
+	errorLog.Fatal(err)
 
 }
 
