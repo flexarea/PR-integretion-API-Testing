@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/flexarea/PR-integration-API-Testing/pkg/models"
 	_ "github.com/lib/pq"
 )
 

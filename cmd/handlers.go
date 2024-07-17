@@ -1,12 +1,10 @@
 package main
 
 import (
-	"database/sql"
 	"log"
 	"net/http"
 
 	"github.com/flexarea/PR-integration-API-Testing/internal/slack"
-	"github.com/flexarea/PR-integration-API-Testing/pkg/models"
 )
 
 func Home(w http.ResponseWriter, r *http.Request) {
