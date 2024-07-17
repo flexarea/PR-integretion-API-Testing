@@ -42,6 +42,8 @@ func GitUpdate(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	w.WriteHeader(http.StatusOK)
+
 }
 func Slack(w http.ResponseWriter, r *http.Request) {
 

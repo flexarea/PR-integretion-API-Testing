@@ -58,12 +58,6 @@ func Server() {
 		logs: &models.LogsModel{DB: db},
 	}
 
-	var version string
-
-	if err := db.QueryRow("select version()").Scan(&version); err != nil {
-		panic(err)
-	}
-	fmt.Printf("version=%s\n", version)
 }
 
 func OpenDB(connectionString string) (*sql.DB, error) {
