@@ -23,6 +23,11 @@ func GitUpdate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if app == nil || app.logs == nil {
+		http.Error(w, "Server not initialized properly", http.StatusInternalServerError)
+		return
+	}
+
 	//testing to send data to database
 	title := "testing"
 	branch := "development"
