@@ -55,7 +55,9 @@ func Server() {
 
 	//populate application struct (which populate models.LogModels struct in models package)
 	app = &Application{
-		logs: &models.LogsModel{DB: db},
+		logs:    &models.LogsModel{DB: db},
+		infoLog: infoLog,
+		errLog:  errorLog,
 	}
 
 }

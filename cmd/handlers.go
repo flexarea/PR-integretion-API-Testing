@@ -1,11 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"github.com/flexarea/PR-integration-API-Testing/internal/slack"
 	"log"
 	"net/http"
-
-	"github.com/flexarea/PR-integration-API-Testing/internal/slack"
 )
 
 func Home(w http.ResponseWriter, r *http.Request) {
@@ -18,6 +16,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Use appropriate route for github action integration"))
 }
 func GitUpdate(w http.ResponseWriter, r *http.Request) {
+
 	if r.Method != "POST" {
 		w.Header().Set("Allow", "POST")
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
@@ -25,7 +24,7 @@ func GitUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if app == nil || app.logs == nil {
-		fmt.Printf("app: %+v\n", app)
+		app.infoLog.Printf("app or app.logs is nil: app=%v, app.logs=%v", app, app.logs)
 		http.Error(w, "Server not initialized properly", http.StatusInternalServerError)
 		return
 	}
