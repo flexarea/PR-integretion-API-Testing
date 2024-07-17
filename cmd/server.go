@@ -3,23 +3,19 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
+	"github.com/flexarea/PR-integration-API-Testing/configs"
 	"github.com/flexarea/PR-integration-API-Testing/pkg/models"
 	_ "github.com/lib/pq"
 )
 
-var app *Application
-
-func Server() {
-	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
-	errorLog := log.New(os.Stderr, "INFO\t", log.Ldate|log.Ltime)
+func (app *Application) Server() {
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", Home)
-	mux.HandleFunc("/newGitActionUpdate", GitUpdate)
+	mux.HandleFunc("/", app.Home)
+	mux.HandleFunc("/newGitActionUpdate", app.GitUpdate)
 	mux.HandleFunc("/slackMessage", Slack)
 	//server configuration
 	port := os.Getenv("PORT")
@@ -28,35 +24,35 @@ func Server() {
 	}
 	server := &http.Server{
 		Addr:     ":" + port,
-		ErrorLog: errorLog,
+		ErrorLog: app.errLog,
 		Handler:  mux,
 	}
 
-	env, err := Load_config()
+	env, err := configs.Load_config()
 
 	if err != nil {
-		errorLog.Fatalf("Failed to Load .env: %v", err)
+		app.errLog.Fatalf("Failed to Load .env: %v", err)
 	}
 
+	//connection string formatting
 	connStr := fmt.Sprintf("postgresql://%s:%s@%s/%s?sslmode=require", env.DB_USERNAME, env.DB_PASSWORD, env.DB_HOST, env.DB_DATABASE)
 
 	db, err := OpenDB(connStr)
 
 	if err != nil {
-		errorLog.Fatalf("Failed to connect to database: %v", err)
+		app.errLog.Fatalf("Failed to connect to database: %v", err)
 	}
 
 	defer db.Close()
 
 	//populate application struct (which populate models.LogModels struct in models package)
-	app = &Application{
-		logs: &models.LogsModel{DB: db},
-	}
+
+	app.logs = &models.LogsModel{DB: db}
 
 	//start web server
-	infoLog.Printf("starting server on port %s", port)
+	app.infoLog.Printf("starting server on port %s", port)
 	err = server.ListenAndServe()
-	errorLog.Fatal(err)
+	app.errLog.Fatal(err)
 
 }
 

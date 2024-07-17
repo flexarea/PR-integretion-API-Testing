@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func Home(w http.ResponseWriter, r *http.Request) {
+func (app *Application) Home(w http.ResponseWriter, r *http.Request) {
 	//check path
 
 	if r.URL.Path != "/" {
@@ -15,7 +15,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write([]byte("Use appropriate route for github action integration"))
 }
-func GitUpdate(w http.ResponseWriter, r *http.Request) {
+func (app *Application) GitUpdate(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != "POST" {
 		w.Header().Set("Allow", "POST")

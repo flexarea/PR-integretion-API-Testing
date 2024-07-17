@@ -7,25 +7,26 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"trello/config"
-	"trello/utils"
+
+	"github.com/flexarea/PR-integration-API-Testing/configs"
 )
 
 // getting a single list information
-func GettingCardInfo(configuration config.Configs, cardID string, flag bool) {
+
+func GettingCardInfo(configuration configs.Configs, cardID string, flag bool) {
 	if !flag {
 		return
 	}
-	url := fmt.Sprintf("%scards/%s?key=%s&token=%s", configuration.MAIN_END_POINT, cardID, configuration.API_KEY, configuration.API_TOKEN)
+	url := fmt.Sprintf("%scards/%s?key=%s&token=%s", configuration.TRELLO_MAIN_END_POINT, cardID, configuration.API_KEY, configuration.API_TOKEN)
 
 	//make new request
 	req, err := http.NewRequest("GET", url, nil)
-	utils.ReqError(err)
 	resp, err := http.DefaultClient.Do(req)
-	utils.RespError(err)
 	databyte, err := io.ReadAll(resp.Body)
-	utils.ReadBodyError(err)
 
+	if err != nil {
+		log.Fatal(err)
+	}
 	//format json body data
 	var prettyJSON bytes.Buffer
 	err = json.Indent(&prettyJSON, databyte, "", " ")
@@ -37,34 +38,26 @@ func GettingCardInfo(configuration config.Configs, cardID string, flag bool) {
 
 // getting all cards from a single list
 // ** To update
-func GettingCardAction(configuration config.Configs, flag bool) {
-	url := configuration.MAIN_END_POINT + "cards/" + configuration.CARD_ID + configuration.Endpoint + fmt.Sprintf("key=%s&token=%s", configuration.API_KEY, configuration.API_TOKEN)
-	req, err := config.NewRequest("GET", url, nil)
-	utils.ReqError(err)
-	resp, err := config.ClientResponse(req)
-	utils.RespError(err)
-
-	if !flag {
-		fmt.Println("")
-	} else {
-		fmt.Println(config.ParseResponse(resp))
-	}
-}
-func DeleteCard(configuration config.Configs, cardID string, flag bool) error {
+func DeleteCard(configuration configs.Configs, cardID string, flag bool) error {
 	//code modified by CTO
 	if !flag {
 		return nil
 	}
 
-	url := fmt.Sprintf("%scards/%s?key=%s&token=%s", configuration.MAIN_END_POINT, cardID, configuration.API_KEY, configuration.API_TOKEN)
+	url := fmt.Sprintf("%scards/%s?key=%s&token=%s", configuration.TRELLO_MAIN_END_POINT, cardID, configuration.API_KEY, configuration.API_TOKEN)
 
 	req, err := http.NewRequest("DELETE", url, nil)
-	utils.ReqError(err)
 
 	res, err := http.DefaultClient.Do(req)
-	utils.ReqError(err)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 	p, err := io.ReadAll(res.Body)
-	utils.ReadBodyError(err)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	response := struct {
 		Limits map[string]interface{} `json:limits`
@@ -82,11 +75,11 @@ func DeleteCard(configuration config.Configs, cardID string, flag bool) error {
 	return nil
 }
 
-func MoveCardtoList(configuration config.Configs, cardID string, targetListId string, flag bool) {
+func MoveCardtoList(configuration configs.Configs, cardID string, targetListId string, flag bool) {
 	if !flag {
 		return
 	}
-	url := fmt.Sprintf("%scards/%s?key=%s&token=%s", configuration.MAIN_END_POINT, cardID, configuration.API_KEY, configuration.API_TOKEN)
+	url := fmt.Sprintf("%scards/%s?key=%s&token=%s", configuration.TRELLO_MAIN_END_POINT, cardID, configuration.API_KEY, configuration.API_TOKEN)
 	//create json payload
 	payload := map[string]string{"idList": targetListId}
 	//make new request
@@ -94,17 +87,24 @@ func MoveCardtoList(configuration config.Configs, cardID string, targetListId st
 	dataByte, err := json.Marshal(payload)
 
 	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(dataByte))
-	utils.ReqError(err)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 	req.Header.Set("Content-Type", "application/json")
 
 	//send http request
 	resp, err := http.DefaultClient.Do(req)
-	utils.RespError(err)
 
+	if err != nil {
+		log.Fatal(err)
+	}
 	defer resp.Body.Close()
 
 	databyte, err := io.ReadAll(resp.Body)
-	utils.ReadBodyError(err)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	//format json body data
 	var prettyJSON bytes.Buffer
