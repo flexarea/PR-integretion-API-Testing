@@ -15,6 +15,7 @@ func main() {
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 
 	infoLog.Println("Running app")
+	infoLog.Println("try: /newGitActionUpdate")
 
 	Server()
 }
