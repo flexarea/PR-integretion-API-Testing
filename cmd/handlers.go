@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -24,6 +25,7 @@ func GitUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if app == nil || app.logs == nil {
+		fmt.Printf("app: %+v\n", app)
 		http.Error(w, "Server not initialized properly", http.StatusInternalServerError)
 		return
 	}
