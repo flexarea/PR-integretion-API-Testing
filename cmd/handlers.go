@@ -22,6 +22,8 @@ func GitUpdate(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 		return
 	}
+
+	//testing to send data to database
 }
 func Slack(w http.ResponseWriter, r *http.Request) {
 
