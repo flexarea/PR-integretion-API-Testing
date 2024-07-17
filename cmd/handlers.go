@@ -18,7 +18,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write([]byte("Use appropriate route for github action integration"))
 }
-func GitUpdate(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+func GitUpdate(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		w.Header().Set("Allow", "POST")
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
@@ -32,7 +32,7 @@ func GitUpdate(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	pr_comment := "sending data to neon db"
 	slackchannel := "C06KPMXQS4U"
 
-	_, err := Application.logs.Insert(title, branch, destinationBranch, pr_comment, slackchannel)
+	_, err := app.logs.Insert(title, branch, destinationBranch, pr_comment, slackchannel)
 
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)

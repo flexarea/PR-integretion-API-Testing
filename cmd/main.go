@@ -15,9 +15,6 @@ func main() {
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 
 	infoLog.Println("Running app")
-	app := &Application{
-		logs: &models.LogsModel{DB: db},
-	}
 
 	Server()
 }

@@ -3,11 +3,15 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/lib/pq"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/flexarea/PR-integration-API-Testing/pkg/models"
+	_ "github.com/lib/pq"
 )
+
+var app = &Application{}
 
 func Server() {
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
@@ -17,7 +21,6 @@ func Server() {
 	mux.HandleFunc("/", Home)
 	mux.HandleFunc("/newGitActionUpdate", GitUpdate)
 	mux.HandleFunc("/slackMessage", Slack)
-
 	//server configuration
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -42,6 +45,9 @@ func Server() {
 	connStr := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=require", env.DB_USERNAME, env.DB_PASSWORD, env.DB_HOST, env.DB_DATABASE)
 
 	db, err := OpenDB(connStr)
+
+	//populate application struct (which populate models.LogModels struct in models package)
+	app.logs.DB = db
 
 	defer db.Close()
 
