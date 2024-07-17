@@ -7,10 +7,11 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/flexarea/PR-integration-API-Testing/pkg/models"
 	_ "github.com/lib/pq"
 )
 
-var app = &Application{}
+var app *Application
 
 func Server() {
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
@@ -46,7 +47,9 @@ func Server() {
 	db, err := OpenDB(connStr)
 
 	//populate application struct (which populate models.LogModels struct in models package)
-	app.logs.DB = db
+	app = &Application{
+		logs: &models.LogsModel{DB: db},
+	}
 
 	defer db.Close()
 
