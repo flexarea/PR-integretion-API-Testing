@@ -40,7 +40,7 @@ func Server() {
 	env, err := Load_config()
 
 	if err != nil {
-		errorLog.Fatal("Failed to Load .env")
+		errorLog.Fatalf("Failed to Load .env: %v", err)
 	}
 
 	connStr := fmt.Sprintf("postgresql://%s:%s@%s/%s?sslmode=require", env.DB_USERNAME, env.DB_PASSWORD, env.DB_HOST, env.DB_DATABASE)
@@ -48,7 +48,7 @@ func Server() {
 	db, err := OpenDB(connStr)
 
 	if err != nil {
-		errorLog.Fatalf("Failed to connect to database: %s", err)
+		errorLog.Fatalf("Failed to connect to database: %v", err)
 	}
 
 	defer db.Close()
