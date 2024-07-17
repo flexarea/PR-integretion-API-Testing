@@ -33,12 +33,14 @@ func GitUpdate(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	slackchannel := "C06KPMXQS4U"
 
 	logsModel := &models.LogsModel{DB: db}
-	
-	id, err := logsModel.Insert(title, branch, destinationBranch, pr_comment, slackchannel)
+
+	_, err := logsModel.Insert(title, branch, destinationBranch, pr_comment, slackchannel)
 
 	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 
 	}
+
 }
 func Slack(w http.ResponseWriter, r *http.Request) {
 
