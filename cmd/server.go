@@ -36,22 +36,27 @@ func Server() {
 	infoLog.Printf("starting server on port %s", port)
 	err := server.ListenAndServe()
 	errorLog.Fatal(err)
+
 	env, err := Load_config()
 
 	if err != nil {
-		log.Fatal(err)
+		errorLog.Fatal("Failed to Load .env")
 	}
 
 	connStr := fmt.Sprintf("postgresql://%s:%s@%s/%s?sslmode=require", env.DB_USERNAME, env.DB_PASSWORD, env.DB_HOST, env.DB_DATABASE)
 
 	db, err := OpenDB(connStr)
 
+	if err != nil {
+		errorLog.Fatalf("Failed to connect to database: %s", err)
+	}
+
+	defer db.Close()
+
 	//populate application struct (which populate models.LogModels struct in models package)
 	app = &Application{
 		logs: &models.LogsModel{DB: db},
 	}
-
-	defer db.Close()
 
 	var version string
 
