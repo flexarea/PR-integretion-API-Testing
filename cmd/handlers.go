@@ -1,9 +1,11 @@
 package main
 
 import (
-	"github.com/flexarea/PR-integration-API-Testing/internal/slack"
 	"log"
 	"net/http"
+
+	"github.com/flexarea/PR-integration-API-Testing/configs"
+	"github.com/flexarea/PR-integration-API-Testing/internal/slack"
 )
 
 func (app *Application) Home(w http.ResponseWriter, r *http.Request) {
@@ -29,7 +31,7 @@ func (app *Application) GitUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//testing to send data to database
-	title := "testing"
+	title := "test 2"
 	branch := "development"
 	destinationBranch := "production"
 	pr_comment := "sending data to neon db"
@@ -49,7 +51,7 @@ func Slack(w http.ResponseWriter, r *http.Request) {
 
 	newMessage := r.URL.Query().Get("message")
 	channelId := r.URL.Query().Get("channelID")
-	env, err := Load_config()
+	env, err := configs.Load_config()
 
 	if err != nil {
 		log.Fatal(err)
