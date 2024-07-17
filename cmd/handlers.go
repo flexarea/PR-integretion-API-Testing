@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/flexarea/PR-integration-API-Testing/cmd/internal/slack"
+	"github.com/flexarea/PR-integration-API-Testing/internal/slack"
 )
 
 func Home(w http.ResponseWriter, r *http.Request) {
