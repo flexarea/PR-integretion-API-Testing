@@ -32,9 +32,7 @@ func GitUpdate(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	pr_comment := "sending data to neon db"
 	slackchannel := "C06KPMXQS4U"
 
-	logsModel := &models.LogsModel{DB: db}
-
-	_, err := logsModel.Insert(title, branch, destinationBranch, pr_comment, slackchannel)
+	_, err := Application.logs.Insert(title, branch, destinationBranch, pr_comment, slackchannel)
 
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
