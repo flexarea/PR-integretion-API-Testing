@@ -1,10 +1,12 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"net/http"
 
 	"github.com/flexarea/PR-integration-API-Testing/internal/slack"
+	"github.com/flexarea/PR-integration-API-Testing/pkg/models"
 )
 
 func Home(w http.ResponseWriter, r *http.Request) {
@@ -16,7 +18,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write([]byte("Use appropriate route for github action integration"))
 }
-func GitUpdate(w http.ResponseWriter, r *http.Request) {
+func GitUpdate(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	if r.Method != "POST" {
 		w.Header().Set("Allow", "POST")
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
@@ -24,6 +26,19 @@ func GitUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//testing to send data to database
+	title := "testing"
+	branch := "development"
+	destinationBranch := "production"
+	pr_comment := "sending data to neon db"
+	slackchannel := "C06KPMXQS4U"
+
+	logsModel := &models.LogsModel{DB: db}
+	
+	id, err := logsModel.Insert(title, branch, destinationBranch, pr_comment, slackchannel)
+
+	if err != nil {
+
+	}
 }
 func Slack(w http.ResponseWriter, r *http.Request) {
 
