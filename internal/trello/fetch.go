@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func Retrieve(cardShortID interface{}, data string) {
+func Retrieve(cardShortID interface{}, data string) string {
 
 	var jsonData = []byte(data)
 
@@ -17,4 +17,18 @@ func Retrieve(cardShortID interface{}, data string) {
 		log.Fatal(err)
 	}
 
+	for _, jsonObject := range result {
+		cardId := jsonObject["id"].(string)
+		idShort, ok := jsonObject["idShort"].(int)
+
+		if !ok {
+			return ""
+		} else {
+			if idShort == cardShortID.(int) {
+				return cardId
+			}
+		}
+	}
+
+	return ""
 }
