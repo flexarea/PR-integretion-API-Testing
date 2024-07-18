@@ -2,22 +2,19 @@ package trello
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 )
 
-func Retrieve(data string) {
+func Retrieve(cardShortID interface{}, data string) {
 
 	var jsonData = []byte(data)
 
 	var result []map[string]interface{}
 
-	err := json.Unmarshal(jsonData, result)
+	err := json.Unmarshal(jsonData, &result)
 
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Printf("%T", result)
 
 }
