@@ -72,7 +72,7 @@ func Slack(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Message sent to slack"))
 }
 
-func Trello(w http.ResponseWriter, r *http.Request) {
+func (app *Application) Trello(w http.ResponseWriter, r *http.Request) {
 
 	list_id := "6671997dea31db576b213fce"
 
@@ -84,9 +84,27 @@ func Trello(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result := trello.GettingCardsInList(env, list_id, true)
+	result, err := trello.GettingCardsInList(env, list_id)
+
+	if err != nil {
+		app.errLog.Fatal(err)
+	}
 
 	cardID := trello.Retrieve(8, *result)
+	targetListID := "666c33ed3ac4db04d453eacf"
 
-	w.Write([]byte(cardID))
+	code, err := trello.MoveCardtoList(env, cardID, targetListID)
+
+	if code == http.StatusOK && err == nil {
+
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(cardID))
+
+	} else {
+		log.Print("Error in Accessing Trello API", err)
+		http.Error(w, "Service unavailable", http.StatusServiceUnavailable)
+		return
+
+	}
+
 }
