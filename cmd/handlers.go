@@ -98,7 +98,7 @@ func (app *Application) Trello(w http.ResponseWriter, r *http.Request) {
 	if code == http.StatusOK && err == nil {
 
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(cardID))
+		w.Write([]byte("Updated!"))
 
 	} else {
 		log.Print("Error in Accessing Trello API", err)
