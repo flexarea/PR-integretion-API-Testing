@@ -85,6 +85,7 @@ func Trello(w http.ResponseWriter, r *http.Request) {
 	}
 
 	result := trello.GettingCardsInList(env, list_id, true)
+	trello.Retrieve(*result)
 
 	w.Write([]byte(*result))
 }

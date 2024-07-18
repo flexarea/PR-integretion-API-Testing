@@ -22,7 +22,6 @@ func GettingCardsInList(configuration configs.Configs, listID string, flag bool)
 
 	url := fmt.Sprintf("%slists/%s/cards?key=%s&token=%s", configuration.TRELLO_MAIN_END_POINT, listID, configuration.API_KEY, configuration.API_TOKEN)
 
-	fmt.Println(url)
 	//make new request
 	req, err := http.NewRequest("GET", url, nil)
 
