@@ -30,12 +30,15 @@ type Configs struct {
 func Load_config() (Configs, error) {
 	godotenv.Load(".env")
 	config := Configs{
-		BOT_TOKEN:            os.Getenv("BOT_TOKEN"),
-		SLACK_MAIN_END_POINT: os.Getenv("SLACK_MAIN_END_POINT"),
-		DB_HOST:              os.Getenv("DB_HOST"),
-		DB_DATABASE:          os.Getenv("DB_DATABASE"),
-		DB_USERNAME:          os.Getenv("DB_USERNAME"),
-		DB_PASSWORD:          os.Getenv("DB_PASSWORD"),
+		BOT_TOKEN:             os.Getenv("BOT_TOKEN"),
+		SLACK_MAIN_END_POINT:  os.Getenv("SLACK_MAIN_END_POINT"),
+		DB_HOST:               os.Getenv("DB_HOST"),
+		DB_DATABASE:           os.Getenv("DB_DATABASE"),
+		DB_USERNAME:           os.Getenv("DB_USERNAME"),
+		DB_PASSWORD:           os.Getenv("DB_PASSWORD"),
+		TRELLO_MAIN_END_POINT: os.Getenv("TRELLO_MAIN_END_POINT"),
+		API_KEY:               os.Getenv("API_KEY"),
+		API_TOKEN:             os.Getenv("API_TOKEN"),
 	}
 
 	if config.BOT_TOKEN == "" {

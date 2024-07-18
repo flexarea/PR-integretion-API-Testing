@@ -15,27 +15,40 @@ import (
 //https://api.trello.com/1/boards/{idBoard}?key={yourKey}&token={yourToken}'
 
 // getting a single list information
-func GettingCardInfo(configuration configs.Configs, cardID string, flag bool) {
+func GettingCardsInList(configuration configs.Configs, listID string, flag bool) *string {
 	if !flag {
-		return
+		return nil
 	}
-	url := fmt.Sprintf("%scards/%s?key=%s&token=%s", configuration.TRELLO_MAIN_END_POINT, cardID, configuration.API_KEY, configuration.API_TOKEN)
 
+	url := fmt.Sprintf("%slists/%s/cards?key=%s&token=%s", configuration.TRELLO_MAIN_END_POINT, listID, configuration.API_KEY, configuration.API_TOKEN)
+
+	fmt.Println(url)
 	//make new request
 	req, err := http.NewRequest("GET", url, nil)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 	resp, err := http.DefaultClient.Do(req)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	databyte, err := io.ReadAll(resp.Body)
 
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	//format json body data
 	var prettyJSON bytes.Buffer
 	err = json.Indent(&prettyJSON, databyte, "", " ")
 	if err != nil {
 		log.Fatal("Error formatting JSON: ", err)
 	}
-	fmt.Println(prettyJSON.String())
+	str := prettyJSON.String()
+	return &str
 }
 
 // getting all cards from a single list

@@ -6,6 +6,7 @@ import (
 
 	"github.com/flexarea/PR-integration-API-Testing/configs"
 	"github.com/flexarea/PR-integration-API-Testing/internal/slack"
+	"github.com/flexarea/PR-integration-API-Testing/internal/trello"
 )
 
 func (app *Application) Home(w http.ResponseWriter, r *http.Request) {
@@ -69,4 +70,21 @@ func Slack(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Message sent to slack"))
+}
+
+func Trello(w http.ResponseWriter, r *http.Request) {
+
+	list_id := "6671997dea31db576b213fce"
+
+	env, err := configs.Load_config()
+
+	if err != nil {
+		log.Fatal(err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	result := trello.GettingCardsInList(env, list_id, true)
+
+	w.Write([]byte(*result))
 }
