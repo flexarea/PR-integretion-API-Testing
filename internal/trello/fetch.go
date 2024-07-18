@@ -19,16 +19,16 @@ func Retrieve(cardShortID interface{}, data string) string {
 
 	for _, jsonObject := range result {
 		cardId := jsonObject["id"].(string)
-		idShort, ok := jsonObject["idShort"].(int)
+		idShort, ok := jsonObject["idShort"].(float64)
 
 		if !ok {
-			return ""
+			return "Wrong interface"
 		} else {
-			if idShort == cardShortID.(int) {
+			if int(idShort) == cardShortID.(int) {
 				return cardId
 			}
 		}
 	}
 
-	return ""
+	return "No CardID Matches Provided idShort"
 }
