@@ -87,7 +87,7 @@ func SendMessage(bot_token, main_end_point, channelID, message string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(prettyJSON.String())
+	//	fmt.Println(prettyJSON.String())
 
 	return nil
 }

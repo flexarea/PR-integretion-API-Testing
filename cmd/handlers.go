@@ -49,14 +49,13 @@ func (app *Application) GitUpdate(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
 }
-func Slack(w http.ResponseWriter, r *http.Request) {
+func (app *Application) Slack(w http.ResponseWriter, r *http.Request) {
 
 	newMessage := r.URL.Query().Get("message")
 	channelId := r.URL.Query().Get("channelID")
 	env, err := configs.Load_config()
 
 	if err != nil {
-		log.Fatal(err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
@@ -64,13 +63,13 @@ func Slack(w http.ResponseWriter, r *http.Request) {
 	err = slack.SendMessage(env.BOT_TOKEN, env.SLACK_MAIN_END_POINT, channelId, newMessage)
 
 	if err != nil {
-		log.Print("Error sending message to slack", err)
+		app.errLog.Print("Error sending message to slack", err)
 		http.Error(w, "Service unavailable", http.StatusServiceUnavailable)
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Message sent to slack"))
+	w.Write([]byte(newMessage))
 }
 
 func (app *Application) Trello(w http.ResponseWriter, r *http.Request) {
@@ -104,16 +103,7 @@ func (app *Application) Trello(w http.ResponseWriter, r *http.Request) {
 
 	if code == http.StatusOK && err == nil {
 
-		w.WriteHeader(http.StatusOK)
-		code, err := w.Write([]byte("Updated!"))
-
-		if err != nil && code != 200 {
-			app.errLog.Fatal(err)
-		} else {
-
-			http.Redirect(w, r, fmt.Sprintf("/slackMessage?channelID=%s&message=%s", env.CHANNELID, message), http.StatusSeeOther)
-
-		}
+		http.Redirect(w, r, fmt.Sprintf("/slackMessage?channelID=%s&message=%s", env.CHANNELID, message), http.StatusSeeOther)
 
 	} else {
 		log.Print("Error in Accessing Trello API", err)
