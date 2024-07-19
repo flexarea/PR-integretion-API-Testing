@@ -90,7 +90,7 @@ func DeleteCard(configuration configs.Configs, cardID string, flag bool) error {
 	return nil
 }
 
-func MoveCardtoList(configuration configs.Configs, cardID string, targetListId string) (int, error) {
+func MoveCardtoList(configuration configs.Configs, cardID string, targetListId string) error {
 	url := fmt.Sprintf("%scards/%s?key=%s&token=%s", configuration.TRELLO_MAIN_END_POINT, cardID, configuration.API_KEY, configuration.API_TOKEN)
 	//create json payload
 	payload := map[string]string{"idList": targetListId}
@@ -99,13 +99,13 @@ func MoveCardtoList(configuration configs.Configs, cardID string, targetListId s
 	dataByte, err := json.Marshal(payload)
 
 	if err != nil {
-		return 0, err
+		return err
 	}
 
 	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(dataByte))
 
 	if err != nil {
-		return 405, err
+		return err
 	}
 
 	req.Header.Set("Content-Type", "application/json")
@@ -114,10 +114,10 @@ func MoveCardtoList(configuration configs.Configs, cardID string, targetListId s
 	resp, err := http.DefaultClient.Do(req)
 
 	if err != nil {
-		return resp.StatusCode, err
+		return err
 	}
 
 	defer resp.Body.Close()
 
-	return http.StatusOK, err
+	return nil
 }

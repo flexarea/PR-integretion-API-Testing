@@ -23,7 +23,5 @@ func main() {
 	}
 
 	infoLog.Println("Running app")
-	infoLog.Println("try: /newGitActionUpdate")
-
 	app.Server()
 }

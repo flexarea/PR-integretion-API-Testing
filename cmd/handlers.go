@@ -55,7 +55,7 @@ func (app *Application) dbRecord(w http.ResponseWriter, r *http.Request) {
 func (app *Application) Slack(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Query().Get("title")
 	branch := r.URL.Query().Get("branch")
-	destinationBranch := r.URL.Query().Get("listId")
+	destinationBranch := r.URL.Query().Get("destinationBranch")
 	pr_comment := r.URL.Query().Get("comment")
 	channelID := r.URL.Query().Get("channelID")
 
@@ -74,7 +74,6 @@ func (app *Application) Slack(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
 	http.Redirect(w, r, fmt.Sprintf("/dbRecord?title=%s&branch=%s&destinationBranch=%s&channelID=%s&comment=%s", title, branch, destinationBranch, channelID, pr_comment), http.StatusSeeOther)
 }
 
@@ -92,6 +91,7 @@ func (app *Application) LogPr(w http.ResponseWriter, r *http.Request) {
 		app.errLog.Print(err)
 
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		return
 	}
 
 	//loading  .env
@@ -111,14 +111,14 @@ func (app *Application) LogPr(w http.ResponseWriter, r *http.Request) {
 
 	cardID := trello.Retrieve(idShort, *result)
 
-	code, err := trello.MoveCardtoList(env, cardID, destinationBranch)
+	errr := trello.MoveCardtoList(env, cardID, destinationBranch)
 
-	if code == http.StatusOK && err == nil {
+	if errr == nil {
 
-		http.Redirect(w, r, fmt.Sprintf("/slackMessage?title=%s&branch=%s&destinationBranch=%s&channelID=%s&message=%s", listID, branch, destinationBranch, channelID, pr_comment), http.StatusSeeOther)
+		http.Redirect(w, r, fmt.Sprintf("/slackMessage?title=%s&branch=%s&destinationBranch=%s&channelID=%s&comment=%s", listID, branch, destinationBranch, channelID, pr_comment), http.StatusSeeOther)
 
 	} else {
-		log.Print("Error in Accessing Trello API", err)
+		app.errLog.Print("Error in Accessing Trello API", err)
 		http.Error(w, "Service unavailable", http.StatusServiceUnavailable)
 		return
 	}
