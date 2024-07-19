@@ -24,6 +24,7 @@ type Configs struct {
 	DB_DATABASE           string
 	DB_USERNAME           string
 	DB_PASSWORD           string
+	CHANNELID             string
 }
 
 // load configuration variables
@@ -39,6 +40,7 @@ func Load_config() (Configs, error) {
 		TRELLO_MAIN_END_POINT: os.Getenv("TRELLO_MAIN_END_POINT"),
 		API_KEY:               os.Getenv("API_KEY"),
 		API_TOKEN:             os.Getenv("API_TOKEN"),
+		CHANNELID:             os.Getenv("CHANNELID"),
 	}
 
 	if config.BOT_TOKEN == "" {

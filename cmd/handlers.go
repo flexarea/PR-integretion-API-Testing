@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -74,8 +75,13 @@ func Slack(w http.ResponseWriter, r *http.Request) {
 
 func (app *Application) Trello(w http.ResponseWriter, r *http.Request) {
 
+	//get query parameters
+
+	message := r.URL.Query().Get("message")
+
 	list_id := "6671997dea31db576b213fce"
 
+	//loading  .env
 	env, err := configs.Load_config()
 
 	if err != nil {
@@ -91,6 +97,7 @@ func (app *Application) Trello(w http.ResponseWriter, r *http.Request) {
 	}
 
 	cardID := trello.Retrieve(8, *result)
+
 	targetListID := "666c33ed3ac4db04d453eacf"
 
 	code, err := trello.MoveCardtoList(env, cardID, targetListID)
@@ -98,13 +105,19 @@ func (app *Application) Trello(w http.ResponseWriter, r *http.Request) {
 	if code == http.StatusOK && err == nil {
 
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("Updated!"))
+		code, err := w.Write([]byte("Updated!"))
+
+		if err != nil && code != 200 {
+			app.errLog.Fatal(err)
+		} else {
+
+			http.Redirect(w, r, fmt.Sprintf("/slackMessage?channelID=%s&message=%s", env.CHANNELID, message), http.StatusSeeOther)
+
+		}
 
 	} else {
 		log.Print("Error in Accessing Trello API", err)
 		http.Error(w, "Service unavailable", http.StatusServiceUnavailable)
 		return
-
 	}
-
 }
