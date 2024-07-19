@@ -25,6 +25,7 @@ type Configs struct {
 	DB_USERNAME           string
 	DB_PASSWORD           string
 	CHANNELID             string
+	DB_URL                string
 }
 
 // load configuration variables
@@ -41,6 +42,7 @@ func Load_config() (Configs, error) {
 		API_KEY:               os.Getenv("API_KEY"),
 		API_TOKEN:             os.Getenv("API_TOKEN"),
 		CHANNELID:             os.Getenv("CHANNELID"),
+		DB_URL:                os.Getenv("DB_URL"),
 	}
 
 	if config.BOT_TOKEN == "" {

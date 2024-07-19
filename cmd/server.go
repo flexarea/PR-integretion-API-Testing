@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"net/http"
 	"os"
 
@@ -35,9 +34,10 @@ func (app *Application) Server() {
 		app.errLog.Fatalf("Failed to Load .env: %v", err)
 	}
 
-	//connection string formatting
-	connStr := fmt.Sprintf("postgresql://%s:%s@%s/%s?sslmode=require", env.DB_USERNAME, env.DB_PASSWORD, env.DB_HOST, env.DB_DATABASE)
-
+	//connection string formatting (development)
+	//connStr := fmt.Sprintf("postgresql://%s:%s@%s/%s?sslmode=require", env.DB_USERNAME, env.DB_PASSWORD, env.DB_HOST, env.DB_DATABASE)
+	//connection string formatting (deployment)
+	connStr := env.DB_URL
 	db, err := OpenDB(connStr)
 
 	if err != nil {
