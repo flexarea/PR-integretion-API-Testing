@@ -16,7 +16,7 @@ func (app *Application) Server() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", app.Home)
 	mux.HandleFunc("/newGitActionUpdate", app.GitUpdate)
-	mux.HandleFunc("/slackMessage", Slack)
+	mux.HandleFunc("/slackMessage", app.Slack)
 	mux.HandleFunc("/trello", app.Trello)
 	//server configuration
 	port := os.Getenv("PORT")
