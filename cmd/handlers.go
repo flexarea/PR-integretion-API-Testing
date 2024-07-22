@@ -21,13 +21,6 @@ func (app *Application) Home(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Use appropriate route for github action integration"))
 }
 func (app *Application) dbRecord(w http.ResponseWriter, r *http.Request) {
-	/*
-		if r.Method != "POST" {
-			w.Header().Set("Allow", "POST")
-			http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
-			return
-		}
-	*/
 	if app == nil || app.logs == nil {
 		http.Error(w, "Server not initialized properly", http.StatusInternalServerError)
 		return
@@ -42,7 +35,6 @@ func (app *Application) dbRecord(w http.ResponseWriter, r *http.Request) {
 	//db model ends here
 
 	_, err := app.logs.Insert(title, branch, destinationBranch, pr_comment, channelID)
-
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
@@ -78,6 +70,14 @@ func (app *Application) Slack(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *Application) LogPr(w http.ResponseWriter, r *http.Request) {
+
+	/*
+		if r.Method != "POST" {
+			w.Header().Set("Allow", "POST")
+			http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+			return
+		}
+	*/
 
 	//get query parameters
 	listID := r.URL.Query().Get("title")

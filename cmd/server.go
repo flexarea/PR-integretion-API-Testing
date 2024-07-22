@@ -36,6 +36,7 @@ func (app *Application) Server() {
 
 	//connection string formatting (development)
 	//connStr := fmt.Sprintf("postgresql://%s:%s@%s/%s?sslmode=require", env.DB_USERNAME, env.DB_PASSWORD, env.DB_HOST, env.DB_DATABASE)
+
 	//connection string formatting (deployment)
 	connStr := env.DB_URL
 	db, err := OpenDB(connStr)
